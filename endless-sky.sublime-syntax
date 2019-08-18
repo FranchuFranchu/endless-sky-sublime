@@ -1,0 +1,48 @@
+%YAML 1.2
+---
+name: Endless Sky
+# See http://www.sublimetext.endless-skyom/docs/3/syntax.html
+file_extensions:
+  - txt
+scope: source.endless-sky
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+  main:
+    # The main context is the initial starting point of our syntax.
+    - match: '^\w+'
+      scope: support.type.endless-sky
+      push: value
+    - match: '\w+'
+      scope: keyword.control.endless-sky
+      push: value
+  value:
+
+    - match: ' "'
+      push: string
+    - match: " (-)?[0-9.]+"
+      scope: constant.numeric.endless-sky
+    - match: "(-)?[0-9.]+"
+      scope: constant.numeric.endless-sky
+    - match: ' '
+      push: implicit_string
+    - match: '( +)\w+'
+      scope: keyword.control.endless-sky
+    - match: $\n?
+      pop: true
+    - match: '.'
+      scope: string.unquoted.endless-sky
+  implicit_string:
+    - meta_scope: string.unquoted.endless-sky
+    - match: ' '
+      pop: true
+    - match: $\n?
+      pop: true
+  string:
+
+    - meta_scope: string.quoted.double.endless-sky
+    - match: \\.
+      scope: constant.character.escape.endless-sky
+    - match: '"'
+      pop: true

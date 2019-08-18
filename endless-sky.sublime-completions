@@ -1,0 +1,11 @@
+{
+	"scope": "source.endless-sky",
+
+	"completions": [
+		{ "trigger": "mission", "contents": "mission $1\n\tname $2\n\tdescription $3" },
+		{ "trigger": "to offer", "contents": "to offer\n\t${1:<condition>} ${2:<compare>} ${3:<value>}" },
+		{ "trigger": "to complete", "contents": "to offer\n\t${1:<condition>} ${2:<compare>} ${3:<value>}" },
+		{ "trigger": "to fail", "contents": "to offer\n\t${1:<condition>} ${2:<compare>} ${3:<value>}" },
+		{ "trigger": "has", "contents": "has ${1:<condition>}" },
+	]
+}
