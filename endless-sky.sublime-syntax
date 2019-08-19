@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 name: Endless Sky
-# See http://www.sublimetext.endless-skyom/docs/3/syntax.html
+# See http://www.sublimetext.com/docs/3/syntax.html
 file_extensions:
   - txt
 scope: source.endless-sky
@@ -11,25 +11,36 @@ contexts:
   # meta_include_prototype: false.
   main:
     # The main context is the initial starting point of our syntax.
+    - match: '(to|on|not|neighbour)' # This are multiple-words keywords, such as "to offer", or "on complete"
+      scope: keyword.control.endless-sky
     - match: '^\w+'
-      scope: support.type.endless-sky
-      push: value
+      scope: support.type.endless-sky # In the beggining of the line "planet Earth" is highlighted blue
+      push: value # Expect a value
     - match: '\w+'
       scope: keyword.control.endless-sky
       push: value
-  value:
-
+    - include: string_detection
+  string_detection:
     - match: ' "'
       push: string
-    - match: " (-)?[0-9.]+"
+    - match: '"'
+      push: string
+    - match: '`'
+      push: bstring
+    - match: ' `'
+      push: bstring
+  value:
+
+    - include: string_detection
+    - match: " (-)?[0-9.]+" # Number
       scope: constant.numeric.endless-sky
-    - match: "(-)?[0-9.]+"
+    - match: "(-)?[0-9.]+" # Number
       scope: constant.numeric.endless-sky
-    - match: ' '
+    - match: ' ' # Non-quoted string
       push: implicit_string
     - match: '( +)\w+'
       scope: keyword.control.endless-sky
-    - match: $\n?
+    - match: $\n? # End of line
       pop: true
     - match: '.'
       scope: string.unquoted.endless-sky
@@ -45,4 +56,11 @@ contexts:
     - match: \\.
       scope: constant.character.escape.endless-sky
     - match: '"'
+      pop: true
+  bstring: # Backtick string
+    - meta_scope: string.quoted.backtick.endless-sky
+    - match: \\.
+      scope: constant.character.escape.endless-sky
+
+    - match: '`'
       pop: true

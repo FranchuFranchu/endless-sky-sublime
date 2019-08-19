@@ -7,5 +7,6 @@
 		{ "trigger": "to complete", "contents": "to offer\n\t${1:<condition>} ${2:<compare>} ${3:<value>}" },
 		{ "trigger": "to fail", "contents": "to offer\n\t${1:<condition>} ${2:<compare>} ${3:<value>}" },
 		{ "trigger": "has", "contents": "has ${1:<condition>}" },
+		{ "trigger": "not", "contents": "not ${1:<condition>}" },
 	]
 }
