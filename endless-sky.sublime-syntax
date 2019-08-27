@@ -16,6 +16,9 @@ contexts:
         - meta_scope: support.type.endless-sky
         - match: '$'
           pop: true
+    - match: 'random'
+      scope: support.type.endless-sky
+      push: value
     - match: '^\w+'
       comment: Expect a value
       scope: support.type.endless-sky
@@ -36,6 +39,9 @@ contexts:
       push: bstring
 
   value:
+    - match: ' random'
+      scope: support.type.endless-sky
+      push: value
     - include: string_detection
     - match: ' ?(\+\+|--|==?|[+-]=|[<>])'
       comment: Increment, decrement or comparison
