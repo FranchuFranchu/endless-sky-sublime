@@ -26,7 +26,7 @@ contexts:
     - match: '\w+'
       scope: entity.name.endless-sky
       push: value
-    - match: '^\s+(["`])?.{0,}?\1[^\n]'
+    - match: '^\s+("|`)?.{0,}?\1[^\n]'
       scope: entity.name.endless-sky
       push: value
     - include: comments
@@ -46,13 +46,13 @@ contexts:
     - match: ' ?(\+\+|--|==?|[+-]=|[<>])'
       comment: Increment, decrement or comparison
       scope: keyword.control.endless-sky
-    - match: ' ?([-])?[0-9.]+'
+    - match: ' ?-?[0-9.]+'
       comment: Number
       scope: constant.numeric.endless-sky
     - match: ' '
       comment: Non-quoted string
       push: implicit_string
-    - match: '( +)\w+'
+    - match: ' +\w+'
       scope: entity.name.endless-sky
     - match: $
       comment: End of line
