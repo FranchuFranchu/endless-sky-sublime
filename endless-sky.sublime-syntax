@@ -1,66 +1,90 @@
 %YAML 1.2
 ---
 name: Endless Sky
-# See http://www.sublimetext.com/docs/3/syntax.html
 file_extensions:
   - txt
 scope: source.endless-sky
 
 contexts:
-  # The prototype context is prepended to all contexts but those setting
-  # meta_include_prototype: false.
   main:
-    # The main context is the initial starting point of our syntax.
-    - match: '(to|on|not|neighbour)' # This are multiple-words keywords, such as "to offer", or "on complete"
-      scope: keyword.control.endless-sky
+    - match: '(to|on|not|neighbour)'
+      comment: This are multiple-words keywords, such as "to offer", or "on complete"
+      scope: entity.name.endless-sky
+    - match: 'npc'
+      scope: entity.name.endless-sky
+      push:
+        - meta_scope: support.type.endless-sky
+        - match: '$'
+          pop: true
+    - match: 'random'
+      scope: support.type.endless-sky
+      push: value
     - match: '^\w+'
-      scope: support.type.endless-sky # In the beggining of the line "planet Earth" is highlighted blue
-      push: value # Expect a value
+      comment: Expect a value
+      scope: support.type.endless-sky
+      push: value
     - match: '\w+'
-      scope: keyword.control.endless-sky
+      scope: entity.name.endless-sky
+      push: value
+    - match: '^\s+("|`)?.{0,}?\1[^\n]'
+      scope: entity.name.endless-sky
+      push: value
+    - include: comments
+    - include: string_detection
+
+  string_detection:
+    - match: ' ?"'
+      push: string
+    - match: ' ?`'
+      push: bstring
+
+  value:
+    - match: ' random'
+      scope: support.type.endless-sky
       push: value
     - include: string_detection
-  string_detection:
-    - match: ' "'
-      push: string
-    - match: '"'
-      push: string
-    - match: '`'
-      push: bstring
-    - match: ' `'
-      push: bstring
-  value:
-
-    - include: string_detection
-    - match: " (-)?[0-9.]+" # Number
-      scope: constant.numeric.endless-sky
-    - match: "(-)?[0-9.]+" # Number
-      scope: constant.numeric.endless-sky
-    - match: ' ' # Non-quoted string
-      push: implicit_string
-    - match: '( +)\w+'
+    - match: ' ?(\+\+|--|==?|[+-]=|[<>])'
+      comment: Increment, decrement or comparison
       scope: keyword.control.endless-sky
-    - match: $\n? # End of line
+    - match: ' ?-?[0-9.]+'
+      comment: Number
+      scope: constant.numeric.endless-sky
+    - match: ' '
+      comment: Non-quoted string
+      push: implicit_string
+    - match: ' +\w+'
+      scope: entity.name.endless-sky
+    - match: $
+      comment: End of line
       pop: true
     - match: '.'
       scope: string.unquoted.endless-sky
+
   implicit_string:
     - meta_scope: string.unquoted.endless-sky
     - match: ' '
       pop: true
-    - match: $\n?
+    - match: $
       pop: true
-  string:
 
+  string:
     - meta_scope: string.quoted.double.endless-sky
     - match: \\.
       scope: constant.character.escape.endless-sky
     - match: '"'
       pop: true
-  bstring: # Backtick string
+
+  bstring:
     - meta_scope: string.quoted.backtick.endless-sky
     - match: \\.
       scope: constant.character.escape.endless-sky
-
     - match: '`'
       pop: true
+
+  comments:
+    - match: '#'
+      scope: punctuation.definition.comment.endless-sky
+      push:
+        - meta_scope: comment.line.number-sign.endless-sky
+        - match: $\n?
+          pop: true
